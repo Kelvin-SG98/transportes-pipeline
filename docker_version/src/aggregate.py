@@ -1,4 +1,5 @@
 from pyspark.sql.functions import col, count, avg, max, min, when
+from pyspark.sql.types import IntegerType, DecimalType
 
 
 def aggregate_to_gold(df_gold):
@@ -15,3 +16,9 @@ def aggregate_to_gold(df_gold):
                 when((col("PROPOSITO").isNotNull()) & (col("PROPOSITO") != "Reunião"), True)
             ).alias("QT_CORR_NAO_REUNI")
         )
+
+    return df_gold.withColumn("QT_CORR_NEG", col("QT_CORR_NEG").cast(IntegerType()))\
+                  .withColumn("QT_CORR_PESS", col("QT_CORR_PESS").cast(IntegerType()))\
+                  .withColumn("VL_MAX_DIST", col("VL_MAX_DIST").cast(DecimalType(10, 2)))\
+                  .withColumn("VL_MIN_DIST", col("VL_MIN_DIST").cast(DecimalType(10, 2)))\
+                  .withColumn("VL_AVG_DIST", col("VL_AVG_DIST").cast(DecimalType(10, 2)))
