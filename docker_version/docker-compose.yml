@@ -1,1 +1,7 @@
-# Placeholder for docker-compose.yml
+version: "3.9"
+services:
+  spark:
+    build: .
+    volumes:
+      - .:/app
+    command: ["spark-submit", "src/main.py"]
