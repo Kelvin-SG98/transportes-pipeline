@@ -1,7 +1,25 @@
 version: "3.9"
+
 services:
   spark:
     build: .
     volumes:
       - .:/app
+      - ./data:/data
     command: ["spark-submit", "src/main.py"]
+    ports:
+      - "4040:4040"
+    env_file:
+      - .env
+
+  tests:
+    build: .
+    volumes:
+      - .:/app
+      - ./data:/data
+      - ./tests:/app/tests
+    command: ["pytest", "tests/"]
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - spark
