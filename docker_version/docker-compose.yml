@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   spark:
     build: .
@@ -18,8 +16,18 @@ services:
       - .:/app
       - ./data:/data
       - ./tests:/app/tests
-    command: ["pytest", "tests/"]
+      - ./coverage_html:/app/coverage_html
+    command: ["pytest", "--cov=src", "--cov-report=html:coverage_html", "tests/"]
     environment:
       - PYTHONUNBUFFERED=1
+    
+  coverage:
+    image: python:3.10
+    working_dir: /app/coverage_html
+    volumes:
+      - ./coverage_html:/app/coverage_html
+    command: ["python", "-m", "http.server", "8081"]
+    ports:
+      - "8081:8081"
     depends_on:
-      - spark
+      - tests

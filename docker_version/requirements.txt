@@ -1,0 +1,4 @@
+pyspark
+pytest
+pytest-cov
+delta-spark
