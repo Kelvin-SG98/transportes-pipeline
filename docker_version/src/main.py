@@ -22,8 +22,14 @@ class TransportePipeline:
         return df_gold
 
 if __name__ == "__main__":
-    spark = SparkSession.builder.appName("TransportePipeline").getOrCreate()
-    spark.conf.set("spark.sql.legacy.timeParserPolicy", "LEGACY")
+    spark = (SparkSession.builder.appName("TransportePipeline")
+             .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
+             .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
+             .config("spark.sql.legacy.timeParserPolicy", "LEGACY")
+             .getOrCreate()
+            )
+    
+
     expected_columns = os.getenv("EXPECTED_COLUMNS", "")
     expected_columns = [col.strip() for col in expected_columns.split(",") if col.strip()]
     input_path = "data/info_transportes.csv"
