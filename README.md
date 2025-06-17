@@ -1,6 +1,6 @@
 # 🚀 Projeto de Engenharia de Dados - Transporte Público
 
-Este repositório foi desenvolvido como resposta ao desafio técnico da vaga de Engenheiro de Dados.
+Este repositório foi desenvolvido como resposta ao desafio técnico de Engenheiro de Dados.
 
 ## Descrição do desafio
 
