@@ -27,6 +27,6 @@ docker_version/data/silver/
 docker_version/data/gold/
 
 # Ignorar o metastore do Spark (catálogo local)
-spark-warehouse/
-metastore_db/
-derby.log
+docker_version/spark-warehouse/
+docker_version/metastore_db/
+docker_version/derby.log
