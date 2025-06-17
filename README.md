@@ -16,6 +16,6 @@ Foram criadas duas abordagens:
 ## Estrutura
 
 - `notebooks/`: Contém notebooks Databricks para diferentes ambientes
-- `data/`: Arquivo CSV de entrada
 - `docker_version/`: Projeto modular com Spark e testes unitários
+- `docker_version/data/`: Arquivo CSV de entrada
 
