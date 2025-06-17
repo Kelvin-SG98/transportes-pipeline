@@ -9,6 +9,7 @@ venv/
 ENV/
 venv.bak/
 *.db
+.coverage
 
 # macOS
 .DS_Store
