@@ -133,11 +133,3 @@ docker-compose run --rm tests
 - O relatório de cobertura é atualizado a cada execução dos testes.
 
 ---
-
-## 📄 Licença
-
-Este projeto é open-source e está sob a licença MIT.
-
----
-
-Se precisar de instruções específicas para Windows, exemplos de comandos ou mais detalhes sobre cada módulo, só pedir!
