@@ -1,6 +1,5 @@
 from src.date_transform import DateColumnsTransformer
 from src.create_ref import RefColumnCreator
-from src.save import Write
 
 class Transformer:
     """
@@ -15,5 +14,4 @@ class Transformer:
     def transform(self, df_bronze, ref_col="DATA_INICIO"):
         df_silver = DateColumnsTransformer.transform_dates(df_bronze, self.date_columns, self.data_format)
         df_silver = RefColumnCreator.create_ref_column(df_silver, ref_col, self.ref_format, self.agg_column)
-        Write.write_delta(df_silver, "/data/silver", "silver", "info_transportes_clean")
         return df_silver

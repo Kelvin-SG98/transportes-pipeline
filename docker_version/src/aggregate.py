@@ -1,6 +1,5 @@
 from pyspark.sql.functions import col, count, avg, max, min, when
 from pyspark.sql.types import IntegerType, DecimalType
-from src.save import Write
 
 class Aggregator:
     """
@@ -32,12 +31,9 @@ class Aggregator:
             ).alias("QT_CORR_NAO_REUNI")
         )
 
-        df_gold = df_gold.withColumn("QT_CORR_NEG", col("QT_CORR_NEG").cast(IntegerType()))\
+        return df_gold.withColumn("QT_CORR_NEG", col("QT_CORR_NEG").cast(IntegerType()))\
                       .withColumn("QT_CORR_PESS", col("QT_CORR_PESS").cast(IntegerType()))\
                       .withColumn("VL_MAX_DIST", col("VL_MAX_DIST").cast(DecimalType(10, 2)))\
                       .withColumn("VL_MIN_DIST", col("VL_MIN_DIST").cast(DecimalType(10, 2)))\
                       .withColumn("VL_AVG_DIST", col("VL_AVG_DIST").cast(DecimalType(10, 2)))
-        
-        Write.write_delta(df_gold, "/data/gold", "gold", "info_corridas_do_dia")
-        return df_gold
     

@@ -3,6 +3,7 @@ from pyspark.sql import SparkSession
 from src.ingest import Ingest
 from src.transform_facada import Transformer
 from src.aggregate import Aggregator
+from src.save import Write
 
 class TransportePipeline:
     def __init__(self, spark, input_path, expected_columns, data_format, ref_format, date_columns, agg_column):
@@ -17,8 +18,11 @@ class TransportePipeline:
 
     def run(self):
         df_bronze = Ingest.read_csv(self.spark, self.input_path)
+        Write.write_delta(df_bronze, "/data/bronze", "bronze", "info_transportes_raw")
         df_silver = self.transformer.transform(df_bronze)
+        Write.write_delta(df_silver, "/data/silver", "silver", "info_transportes_clean")
         df_gold = Aggregator.aggregate_to_gold(df_silver, self.agg_column)
+        Write.write_delta(df_gold, "/data/gold", "gold", "info_corridas_do_dia")
         return df_gold
 
 if __name__ == "__main__":

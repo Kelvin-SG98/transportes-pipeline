@@ -1,5 +1,3 @@
-from src.save import Write
-
 class Ingest:
     """
     Classe responsável pela ingestão de dados no pipeline de transportes.
@@ -18,5 +16,4 @@ class Ingest:
             DataFrame do Spark com os dados lidos.
         """
         df_raw = spark.read.csv(path, header=True, sep=";")
-        Write.write_delta(df_raw, "/data/bronze", "bronze", "info_transportes_raw")
         return df_raw

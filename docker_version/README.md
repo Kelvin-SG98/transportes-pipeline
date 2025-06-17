@@ -11,13 +11,18 @@ transportes-pipeline/
 │
 ├── docker_version/
 │   ├── data/                # Dados de entrada (CSV)
+│   │   ├── info_transportes.csv
+│   │   └── sample.csv       # csv para testes
+│   │
 │   ├── src/                 # Código-fonte do pipeline
 │   │   ├── main.py
 │   │   ├── ingest.py
 │   │   ├── date_transform.py
 │   │   ├── create_ref.py
 │   │   ├── aggregate.py
-│   │   └── transform_facada.py
+│   │   ├── transform_facada.py
+│   │   └── consulta_gold.py
+│   │
 │   ├── tests/               # Testes unitários (pytest)
 │   ├── coverage_html/       # Relatório de cobertura de testes (gerado automaticamente)
 │   ├── Dockerfile           # Dockerfile principal (Spark + Python)
@@ -43,7 +48,7 @@ transportes-pipeline/
 ### 1. **Preparação**
 
 - Certifique-se de ter [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/) instalados.
-- Coloque seus arquivos de dados (ex: `info_transportes.csv`) na pasta data.
+- Coloque seus arquivos de dados (ex: `info_transportes.csv`) na pasta /docker_version/data.
 
 ### 2. **Configuração**
 
@@ -59,7 +64,7 @@ AGG_COLUMN=DT_REF
 
 ### 3. **Executando os testes e cobertura**
 
-```sh
+```bash
 docker-compose run --rm tests
 docker-compose up -d coverage
 ```
@@ -68,8 +73,32 @@ Acesse o relatório de cobertura em: [http://localhost:8081](http://localhost:80
 
 ### 4. **Executando o pipeline Spark**
 
-```sh
+```bash
 docker-compose up spark
+```
+
+### 5. **Consultar a tabela gold**
+
+Para subir o continer e abrir o terminal
+```bash
+docker-compose run spark bash
+```
+
+Para executar o script de consulta (dentro do terminal do container)
+```bash
+python src/consulta_gold.py
+```
+
+Para sair do container
+```bash
+exit
+```
+
+### 6. **Remover os container**
+
+Para subir o continer e abrir o terminal
+```bash
+docker-compose down -v
 ```
 
 ---
@@ -81,7 +110,7 @@ docker-compose up spark
 
 ### Exemplo de execução manual dos testes:
 
-```sh
+```bash
 docker-compose run --rm tests
 ```
 
@@ -95,7 +124,7 @@ docker-compose run --rm tests
 - **create_ref.py**: Criação de coluna de referência para agregação.
 - **aggregate.py**: Agregação dos dados para geração do nível gold.
 - **transform_facada.py**: Orquestra as transformações do pipeline.
-
+- **consulta_gold.py**: Consulta os dados gerados na tabela info_corridas_do_dia.
 ---
 
 ## 🗂️ Volumes e Relatórios
@@ -108,11 +137,11 @@ docker-compose run --rm tests
 ## 🛠️ Dicas Úteis
 
 - Para limpar containers, volumes e imagens:
-  ```sh
+  ```bash
   docker-compose down -v --rmi all --remove-orphans
   ```
 - Para reconstruir tudo do zero:
-  ```sh
+  ```bash
   docker-compose build --no-cache
   ```
 
