@@ -20,3 +20,13 @@ venv.bak/
 # Arquivos temporários
 *.zip
 *.log
+
+# Ignorar dados persistidos nas camadas Bronze, Silver e Gold
+docker_version/data/bronze/
+docker_version/data/silver/
+docker_version/data/gold/
+
+# Ignorar o metastore do Spark (catálogo local)
+spark-warehouse/
+metastore_db/
+derby.log

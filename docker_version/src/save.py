@@ -20,4 +20,15 @@ class Write:
         """
         df.sparkSession.sql(f"CREATE DATABASE IF NOT EXISTS {camada}")
 
-        df.write.format("delta").mode(mode).option("path", path).saveAsTable(f"{camada}.{table_name}")
+        # df.write.format("delta").mode(mode).option("path", path).saveAsTable(f"{camada}.{table_name}")
+        # Salvar como arquivo Delta no caminho especificado
+        df.write.format("delta").mode(mode).save(f"{path}/{table_name}")
+
+        # Registrar a tabela no catálogo Spark
+        df.sparkSession.sql(
+            f"""
+            CREATE TABLE IF NOT EXISTS {camada}.{table_name}
+            USING DELTA
+            LOCATION '{path}/{table_name}'
+            """
+        )

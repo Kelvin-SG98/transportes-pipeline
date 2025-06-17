@@ -4,6 +4,7 @@ services:
     volumes:
       - .:/app
       - ./data:/data
+      - ./spark-warehouse:/opt/bitnami/spark/spark-warehouse
     command: ["spark-submit", "--packages", "io.delta:delta-core_2.12:2.4.0", "src/main.py"]
     ports:
       - "4040:4040"
